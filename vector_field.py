@@ -35,7 +35,8 @@ ys = np.linspace(0,50,15)
 
 # Criação da função vetorial F(x,y) que calcula o Jacobiano num ponto específico e multiplica pelo vetor deslocamento naquele ponto.
 # Trata-se da ideia da utilização da aproximação linear para estimar as variações em cada ponto.
-field = sp.lambdify([x,y], J.dot([.0001,.0001]), 'numpy')
+step = 0.1
+field = sp.lambdify([x,y], J.dot([step,step]), 'numpy')
 
 # Função que combina os diversos valores de x com os de y, para estabelecer os diversos pontos em que a função será avaliada.
 u, v = np.meshgrid(xs,ys)
@@ -47,3 +48,16 @@ res = field(u, v)
 plt.quiver(xs, ys, res[0], res[1], color = "b")
 plt.savefig("graph1.pdf", format = "pdf")
 plt.show()
+
+# Simulação do caminho percorrido ao longo do tempo, por aproximação linear.
+n = 1000
+v = np.resize(np.zeros(n*2), (n,2))
+v[0] = [20,20]
+for i in range(n-1):
+    W = J.subs([(x, v[i][0]), (y, v[i][1])])
+    v[i+1] = v[i] + W.dot((step, step))
+
+plt.plot(v)
+plt.legend(["x", "y"])
+plt.show()
+

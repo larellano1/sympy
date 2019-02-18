@@ -16,7 +16,7 @@ plt.style.use("ggplot")
 data_inicial = round(time.mktime((datetime.datetime(2010,11,1)).timetuple()))
 data_final = round(time.mktime((datetime.datetime(2019,2,18)).timetuple()))
 intervalo = "1mo" #options: 1d 1wk 1mo
-frequencia = "mo" #options: 1d 1wk 1mo
+frequencia = "1mo" #options: 1d 1wk 1mo
 ticker = "BRML3"
 
 

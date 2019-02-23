@@ -21,7 +21,7 @@ data_inicial = round(time.mktime((datetime.datetime(2013,11,1)).timetuple()))
 data_final = round(time.mktime((datetime.datetime(2019,2,18)).timetuple()))
 intervalo = "1mo" #options: 1d 1wk 1mo
 frequencia = "1mo" #options: 1d 1wk 1mo
-ticker = "PETR4"
+ticker = "VALE3"
 
 
 url = "https://finance.yahoo.com/quote/{4}.SA/history?period1={0}&period2={1}&interval={2}&filter=history&frequency={3}".format(data_inicial,data_final, intervalo, frequencia, ticker)
@@ -49,10 +49,10 @@ data_inicial = round(time.mktime((datetime.datetime(2013,11,1)).timetuple()))
 data_final = round(time.mktime((datetime.datetime(2019,2,18)).timetuple()))
 intervalo = "1mo" #options: 1d 1wk 1mo
 frequencia = "1mo" #options: 1d 1wk 1mo
-ticker = "%5EBVSP"
+ticker1 = "%5EBVSP"
 
 
-url = "https://finance.yahoo.com/quote/{4}/history?period1={0}&period2={1}&interval={2}&filter=history&frequency={3}".format(data_inicial,data_final, intervalo, frequencia, ticker)
+url = "https://finance.yahoo.com/quote/{4}/history?period1={0}&period2={1}&interval={2}&filter=history&frequency={3}".format(data_inicial,data_final, intervalo, frequencia, ticker1)
 
 html = requests.get(url)
 
@@ -78,8 +78,8 @@ print("Correlation: {0:.4f}".format(corr))
 
 ## Plot das séries
 
-plt.scatter(ibov["Pct_Change"], petr["Pct_Change"])
-
+plt.scatter(ibov["Pct_Change"], petr["Pct_Change"], color="b")
+plt.title("{} x IBOV".format(ticker))
 ## Cálculo do beta
 
 X = ibov[["Pct_Change"]]
@@ -89,5 +89,5 @@ model = linear_model.LinearRegression()
 res = model.fit(X[1:],Y[1:].to_frame())
 print("Beta: {0:.4f}\nIntercept: {1:.4f}\nR2:{2:.4f}".format(res.coef_[0][0], res.intercept_[0], model.score(X[1:],Y[1:])))
 
-plt.plot(np.linspace(-.15,.2,100), (np.vectorize(lambda x: res.coef_*x + res.intercept_))(np.linspace(-.15,.2,100)))
+plt.plot(np.linspace(-.15,.2,100), (np.vectorize(lambda x: res.coef_*x + res.intercept_))(np.linspace(-.15,.2,100)), color="r")
 plt.show()
